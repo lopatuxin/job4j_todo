@@ -24,6 +24,11 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
+    public void updateDone(int id) {
+        repository.updateDone(id);
+    }
+
+    @Override
     public void delete(int id) {
         repository.delete(id);
     }
@@ -36,5 +41,10 @@ public class SimpleTaskService implements TaskService {
     @Override
     public Optional<Task> findById(int id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<Task> findByDone(boolean done) {
+        return repository.findByDone(done);
     }
 }

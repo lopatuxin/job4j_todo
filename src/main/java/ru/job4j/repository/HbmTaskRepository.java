@@ -34,11 +34,22 @@ public class HbmTaskRepository implements TaskRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createQuery("UPDATE Task SET description = :fDescription, done = :fDone WHERE id = fId")
-                    .setParameter("fDescription", task.getDescription())
-                    .setParameter("fDone", task.isDone())
-                    .setParameter("fId", task.getId())
-                    .executeUpdate();
+            session.update(task);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void updateDone(int id) {
+        var task = findById(id).get();
+        task.setDone(true);
+        Session session = sf.openSession();
+        try {
+            session.beginTransaction();
+            session.update(task);
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -89,6 +100,24 @@ public class HbmTaskRepository implements TaskRepository {
             result = session.createQuery("FROM Task WHERE id = :fId")
                     .setParameter("fId", id)
                     .uniqueResultOptional();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Task> findByDone(boolean done) {
+        Session session = sf.openSession();
+        List result = new ArrayList<>();
+        try {
+            session.beginTransaction();
+            result = session.createQuery("FROM Task WHERE done = :fDone")
+                    .setParameter("fDone", done)
+                    .list();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
