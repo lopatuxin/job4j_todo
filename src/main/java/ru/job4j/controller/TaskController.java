@@ -37,7 +37,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create (@ModelAttribute Task task) {
+    public String create(@ModelAttribute Task task) {
         task.setDone(false);
         service.add(task);
         return "redirect:/tasks";
