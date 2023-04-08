@@ -44,12 +44,12 @@ public class HbmTaskRepository implements TaskRepository {
     }
 
     public void updateDone(int id) {
-        var task = findById(id).get();
-        task.setDone(true);
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.update(task);
+            session.createQuery("UPDATE Task SET done = :fDone WHERE id = :fId")
+                            .setParameter("fDone", true)
+                            .setParameter("fId", id);
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
