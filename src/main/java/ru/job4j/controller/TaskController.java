@@ -64,8 +64,10 @@ public class TaskController {
         service.updateDone(id);
         return "redirect:/tasks";
     }
-    @GetMapping("{id}/update")
-    public String getUpdatePage() {
+    @GetMapping("/update/{id}")
+    public String getUpdatePage(@PathVariable int id, Model model) {
+        var taskOptional = service.findById(id);
+        model.addAttribute("task", taskOptional.get());
         return "tasks/update";
     }
 
