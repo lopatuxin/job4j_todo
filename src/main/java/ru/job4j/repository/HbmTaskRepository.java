@@ -51,12 +51,12 @@ public class HbmTaskRepository implements TaskRepository {
 
     public boolean updateDone(int id) {
         Session session = sf.openSession();
+        Task task = findById(id).get();
+        task.setDone(true);
         boolean result = true;
         try {
             session.beginTransaction();
-            session.createQuery("UPDATE Task SET done = :fDone WHERE id = :fId")
-                            .setParameter("fDone", true)
-                            .setParameter("fId", id);
+            session.update(task);
             session.getTransaction().commit();
         } catch (Exception e) {
             result = false;
