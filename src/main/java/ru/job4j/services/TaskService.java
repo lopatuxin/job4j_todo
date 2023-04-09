@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    void add(Task task);
-    void update(Task task);
-    void updateDone(int id);
-    void delete(int id);
+    boolean add(Task task);
+    boolean update(Task task);
+    boolean updateDone(int id);
+    boolean delete(int id);
     List<Task> findAll();
     Optional<Task> findById(int id);
     List<Task> findByDone(boolean done);

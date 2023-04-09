@@ -14,23 +14,23 @@ public class SimpleTaskService implements TaskService {
     private final TaskRepository repository;
 
     @Override
-    public void add(Task task) {
-        repository.add(task);
+    public boolean add(Task task) {
+        return repository.add(task);
     }
 
     @Override
-    public void update(Task task) {
-        repository.update(task);
+    public boolean update(Task task) {
+        return repository.update(task);
     }
 
     @Override
-    public void updateDone(int id) {
-        repository.updateDone(id);
+    public boolean updateDone(int id) {
+        return repository.updateDone(id);
     }
 
     @Override
-    public void delete(int id) {
-        repository.delete(id);
+    public boolean delete(int id) {
+        return repository.delete(id);
     }
 
     @Override

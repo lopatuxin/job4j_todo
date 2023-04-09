@@ -37,9 +37,14 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task) {
+    public String create(@ModelAttribute Task task, Model model) {
+        boolean result;
         task.setDone(false);
-        service.add(task);
+        result = service.add(task);
+        if (!result) {
+            model.addAttribute("message", "Не удалось добавить заявку");
+            return "errors/404";
+        }
         return "redirect:/tasks";
     }
 
@@ -55,25 +60,44 @@ public class TaskController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable int id) {
-        service.delete(id);
+    public String delete(@PathVariable int id, Model model) {
+        boolean result;
+        result = service.delete(id);
+        if (!result) {
+            model.addAttribute("message", "Не удалось удалить заявку");
+            return "errors/404";
+        }
         return "redirect:/tasks";
     }
     @GetMapping("/updateDone/{id}")
-    public String updateDone(@PathVariable int id) {
-        service.updateDone(id);
+    public String updateDone(@PathVariable int id, Model model) {
+        boolean result;
+        result = service.updateDone(id);
+        if (!result) {
+            model.addAttribute("message", "Заявка не выполнена");
+            return "errors/404";
+        }
         return "redirect:/tasks";
     }
     @GetMapping("/update/{id}")
     public String getUpdatePage(@PathVariable int id, Model model) {
         var taskOptional = service.findById(id);
+        if (taskOptional.isEmpty()) {
+            model.addAttribute("message", "Заявка с указанным идентификатором не найдена");
+            return "errors/404";
+        }
         model.addAttribute("task", taskOptional.get());
         return "tasks/update";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task) {
-        service.update(task);
+    public String update(@ModelAttribute Task task, Model model) {
+        boolean result;
+        result = service.update(task);
+        if (!result) {
+            model.addAttribute("message", "Не удалось обновить заявку");
+            return "errors/404";
+        }
         return "redirect:/tasks";
     }
 

@@ -16,35 +16,42 @@ public class HbmTaskRepository implements TaskRepository {
     private final SessionFactory sf;
 
     @Override
-    public void add(Task task) {
+    public boolean add(Task task) {
         Session session = sf.openSession();
+        boolean result = true;
         try {
             session.beginTransaction();
             session.save(task);
             session.getTransaction().commit();
         } catch (Exception e) {
+            result = false;
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
+        return result;
     }
 
     @Override
-    public void update(Task task) {
+    public boolean update(Task task) {
         Session session = sf.openSession();
+        boolean result = true;
         try {
             session.beginTransaction();
             session.update(task);
             session.getTransaction().commit();
         } catch (Exception e) {
+            result = false;
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
+        return result;
     }
 
-    public void updateDone(int id) {
+    public boolean updateDone(int id) {
         Session session = sf.openSession();
+        boolean result = true;
         try {
             session.beginTransaction();
             session.createQuery("UPDATE Task SET done = :fDone WHERE id = :fId")
@@ -52,15 +59,18 @@ public class HbmTaskRepository implements TaskRepository {
                             .setParameter("fId", id);
             session.getTransaction().commit();
         } catch (Exception e) {
+            result = false;
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
+        return result;
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
         Session session = sf.openSession();
+        boolean result = true;
         try {
             session.beginTransaction();
             session.createQuery("DELETE Task WHERE id = :fId")
@@ -68,10 +78,12 @@ public class HbmTaskRepository implements TaskRepository {
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
+            result = false;
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
+        return result;
     }
 
     @Override
