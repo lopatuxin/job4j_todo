@@ -38,9 +38,7 @@ public class TaskController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute Task task, Model model) {
-        boolean result;
-        task.setDone(false);
-        result = service.add(task);
+        boolean result = service.add(task);
         if (!result) {
             model.addAttribute("message", "Не удалось добавить заявку");
             return "errors/404";
@@ -61,8 +59,7 @@ public class TaskController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id, Model model) {
-        boolean result;
-        result = service.delete(id);
+        boolean result = service.delete(id);
         if (!result) {
             model.addAttribute("message", "Не удалось удалить заявку");
             return "errors/404";
@@ -71,8 +68,7 @@ public class TaskController {
     }
     @GetMapping("/updateDone/{id}")
     public String updateDone(@PathVariable int id, Model model) {
-        boolean result;
-        result = service.updateDone(id);
+        boolean result = service.updateDone(id);
         if (!result) {
             model.addAttribute("message", "Заявка не выполнена");
             return "errors/404";
@@ -92,8 +88,7 @@ public class TaskController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Task task, Model model) {
-        boolean result;
-        result = service.update(task);
+        boolean result = service.update(task);
         if (!result) {
             model.addAttribute("message", "Не удалось обновить заявку");
             return "errors/404";
