@@ -14,8 +14,7 @@ import java.io.IOException;
 @Order(1)
 public class AuthorizationFilter extends HttpFilter {
     @Override
-    protected void doFilter(
-            HttpServletRequest request,
+    protected void doFilter(HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         var uri = request.getRequestURI();
