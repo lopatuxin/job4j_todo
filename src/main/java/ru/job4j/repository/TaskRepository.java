@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository {
-    boolean add(Task task);
+    Task add(Task task);
     boolean update(Task task);
     boolean updateDone(int id);
     boolean delete(int id);

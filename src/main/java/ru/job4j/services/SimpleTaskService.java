@@ -14,7 +14,7 @@ public class SimpleTaskService implements TaskService {
     private final TaskRepository repository;
 
     @Override
-    public boolean add(Task task) {
+    public Task add(Task task) {
         return repository.add(task);
     }
 

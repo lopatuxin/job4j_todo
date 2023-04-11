@@ -38,8 +38,8 @@ public class TaskController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute Task task, Model model) {
-        boolean result = service.add(task);
-        if (!result) {
+        var result = service.add(task);
+        if (result == null) {
             model.addAttribute("message", "Не удалось добавить заявку");
             return "errors/404";
         }
