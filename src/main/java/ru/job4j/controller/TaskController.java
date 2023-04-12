@@ -6,15 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
+import ru.job4j.services.PriorityService;
 import ru.job4j.services.TaskService;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/tasks")
 @AllArgsConstructor
 public class TaskController {
     private final TaskService service;
+    private final PriorityService priorityService;
 
     @GetMapping()
     public String getAll(Model model) {
