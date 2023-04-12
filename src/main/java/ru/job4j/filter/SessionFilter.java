@@ -31,6 +31,5 @@ public class SessionFilter extends HttpFilter {
             user.setName("Гость");
         }
         request.setAttribute("user", user);
-        session.setAttribute("user", user);
     }
 }

@@ -40,8 +40,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, HttpSession session) {
-        var user = (User) session.getAttribute("user");
+    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
         task.setUser(user);
         var result = service.add(task);
         if (result == null) {
