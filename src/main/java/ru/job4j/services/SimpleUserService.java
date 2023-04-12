@@ -13,7 +13,7 @@ public class SimpleUserService implements UserService {
     private final UserRepository repository;
 
     @Override
-    public User save(User user) {
+    public Optional<User> save(User user) {
         return repository.save(user);
     }
 

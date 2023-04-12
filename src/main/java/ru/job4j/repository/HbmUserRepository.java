@@ -1,6 +1,8 @@
 package ru.job4j.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.User;
 
@@ -11,11 +13,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HbmUserRepository implements UserRepository {
     private final CrudRepository repository;
+    private static final Logger LOG = LoggerFactory.getLogger(HbmUserRepository.class);
 
     @Override
-    public User save(User user) {
-        repository.run(session -> session.persist(user));
-        return user;
+    public Optional<User> save(User user) {
+        Optional result = Optional.empty();
+        try {
+            repository.run(session -> session.persist(user));
+            result = Optional.of(user);
+        } catch (Exception e) {
+            LOG.error("Пользователь с таким email уже существует", e);
+        }
+        return result;
     }
 
     @Override

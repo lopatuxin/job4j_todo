@@ -8,6 +8,8 @@ import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.services.TaskService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/tasks")
 @AllArgsConstructor
@@ -38,7 +40,8 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+    public String create(@ModelAttribute Task task, Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
         task.setUser(user);
         var result = service.add(task);
         if (result == null) {

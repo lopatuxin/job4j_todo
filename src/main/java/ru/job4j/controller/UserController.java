@@ -29,7 +29,7 @@ private final UserService service;
     @PostMapping("/register")
     public String register(@ModelAttribute User user, Model model) {
         var savedUser = service.save(user);
-        if (savedUser == null) {
+        if (savedUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
             return "errors/404";
         }
