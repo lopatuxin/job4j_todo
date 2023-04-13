@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.model.Priority;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.services.PriorityService;
@@ -35,7 +36,8 @@ public class TaskController {
     }
 
     @GetMapping({"/create", "tasks/create"})
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
