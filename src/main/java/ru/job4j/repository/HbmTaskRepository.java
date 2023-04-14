@@ -3,6 +3,7 @@ package ru.job4j.repository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.Task;
+import ru.job4j.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,8 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> findAll() {
-        return repository.query("from Task t JOIN FETCH t.priority", Task.class);
+        return repository.query("SELECT DISTINCT t FROM Task t JOIN FETCH t.priority "
+                + "JOIN FETCH t.categories ORDER BY t.id", Task.class);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> findByDone(boolean done) {
-        return repository.query("from Task as t JOIN FETCH t.priority where t.done = :tDone", Task.class,
-                Map.of("tDone", done));
+        return repository.query("FROM Task AS t JOIN FETCH t.categories "
+                + "JOIN FETCH t.priority where done = :fDone", Task.class, Map.of("fDone", done));
     }
 }

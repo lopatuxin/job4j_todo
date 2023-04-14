@@ -3,6 +3,7 @@ package ru.job4j.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.model.Task;
+import ru.job4j.model.User;
 import ru.job4j.repository.TaskRepository;
 
 import java.util.List;

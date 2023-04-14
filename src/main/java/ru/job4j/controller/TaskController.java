@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.model.Priority;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.services.CategoryService;
 import ru.job4j.services.PriorityService;
 import ru.job4j.services.TaskService;
+
+import static ru.job4j.util.TimezoneConverter.setTimeZone;
 
 @Controller
 @RequestMapping("/tasks")
@@ -20,20 +21,26 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping()
-    public String getAll(Model model) {
-        model.addAttribute("tasks", service.findAll());
+    public String getAll(Model model, @SessionAttribute User user) {
+        var tasks = service.findAll();
+        tasks.forEach(task -> setTimeZone(task, user));
+        model.addAttribute("tasks", tasks);
         return "tasks/list";
     }
 
     @GetMapping("/false")
-    public String getNew(Model model) {
-        model.addAttribute("tasks", service.findByDone(false));
+    public String getNew(Model model, @SessionAttribute User user) {
+        var tasks = service.findByDone(false);
+        tasks.forEach(task -> setTimeZone(task, user));
+        model.addAttribute("tasks", tasks);
         return "tasks/list";
     }
 
     @GetMapping("/true")
-    public String getSuccess(Model model) {
-        model.addAttribute("tasks", service.findByDone(true));
+    public String getSuccess(Model model, @SessionAttribute User user) {
+        var tasks = service.findByDone(true);
+        tasks.forEach(task -> setTimeZone(task, user));
+        model.addAttribute("tasks", tasks);
         return "tasks/list";
     }
 
@@ -56,12 +63,13 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id) {
+    public String getById(Model model, @PathVariable int id, @SessionAttribute User user) {
         var taskOptional = service.findById(id);
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "Заявка с указанным идентификатором не найдена");
             return "errors/404";
         }
+        setTimeZone(taskOptional.get(), user);
         model.addAttribute("task", taskOptional.get());
         return "tasks/one";
     }
@@ -104,5 +112,4 @@ public class TaskController {
         }
         return "redirect:/tasks";
     }
-
 }
