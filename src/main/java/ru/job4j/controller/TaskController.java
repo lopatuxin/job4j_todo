@@ -10,6 +10,8 @@ import ru.job4j.services.CategoryService;
 import ru.job4j.services.PriorityService;
 import ru.job4j.services.TaskService;
 
+import java.util.List;
+
 import static ru.job4j.util.TimezoneConverter.setTimeZone;
 
 @Controller
@@ -52,8 +54,11 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user,
+                         @RequestParam("category.id") List<Integer> categoryList) {
         task.setUser(user);
+        var categories = categoryService.findById(categoryList);
+        task.setCategories(categories);
         var result = service.add(task);
         if (result == null) {
             model.addAttribute("message", "Не удалось добавить заявку");
@@ -95,6 +100,8 @@ public class TaskController {
     @GetMapping("/update/{id}")
     public String getUpdatePage(@PathVariable int id, Model model) {
         var taskOptional = service.findById(id);
+        model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         if (taskOptional.isEmpty()) {
             model.addAttribute("message", "Заявка с указанным идентификатором не найдена");
             return "errors/404";

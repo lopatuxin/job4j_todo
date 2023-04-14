@@ -6,11 +6,13 @@ import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.repository.TaskRepository;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@ThreadSafe
 public class SimpleTaskService implements TaskService {
     private final TaskRepository repository;
 

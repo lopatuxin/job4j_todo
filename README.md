@@ -32,6 +32,15 @@ ___
 ## Начальная страница
 
 <image src="/picture.jpg" alt="Начальная страница"></image>
+
+## Страница изменения заявки
+<image src="/pictures1.jpg" alt="Страница изменения заявки"></image>
+
+## Страница создания заявки
+<image src="/picture2.jpg" alt="Страница создания заявки"></image>
+
+## Страница входа
+<image src="/pictures3.jpg" alt="Страница входа"></image>
 ___
 ### Автор
 https://vk.com/lopatuxin
